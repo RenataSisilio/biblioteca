@@ -14,7 +14,7 @@
         "status": "available"
     },
     {
-        "title": "No amor Amor",
+        "title": "No amor",
         "author": "Amedeo Cencini",
         "category": "Celibato",
         "number": 3,
@@ -708,13 +708,6 @@
         "author": "São José Maria Escrivá",
         "category": "Espiritualidade",
         "number": 38,
-        "status": "available"
-    },
-    {
-        "title": "Tratado da Conformidade com a Vontade de Deus",
-        "author": "Santo Afonso de Ligório",
-        "category": "Espiritualidade",
-        "number": 39,
         "status": "available"
     },
     {
@@ -1771,6 +1764,13 @@
         "author": "Santo Ambrósio",
         "category": "Temas teológicos",
         "number": 3,
+        "status": "available"
+    },
+    {
+        "title": "Imitação de Cristo",
+        "author": "Tomás de Kempis",
+        "category": "Espiritualidade",
+        "number": 39,
         "status": "available"
     }
 ]

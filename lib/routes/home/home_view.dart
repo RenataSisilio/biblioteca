@@ -44,11 +44,13 @@ class HomeView extends StatelessWidget {
                     },
                   ).toList();
                   result.addAll(
-                    copy.where(
-                      (element) => element.title.toLowerCase().contains(
-                            textEditingValue.text.toLowerCase(),
-                          ),
-                    ),
+                    copy
+                        .where(
+                          (element) => element.title.toLowerCase().contains(
+                                textEditingValue.text.toLowerCase(),
+                              ),
+                        )
+                        .where((element) => !result.contains(element)),
                   );
                   return result;
                 },
@@ -68,8 +70,8 @@ class HomeView extends StatelessWidget {
                           .where(
                               (book) => book.title == selectedBook.value?.title)
                           .map(
-                        (e) => BookInfo(selectedBook: e),
-                      ),
+                            (e) => BookInfo(selectedBook: e),
+                          ),
                     ),
                   );
                 },
