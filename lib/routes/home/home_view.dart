@@ -68,15 +68,7 @@ class HomeView extends StatelessWidget {
                           .where(
                               (book) => book.title == selectedBook.value?.title)
                           .map(
-                        (e) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(24.0),
-                              child: BookInfo(selectedBook: e),
-                            ),
-                          );
-                        },
+                        (e) => BookInfo(selectedBook: e),
                       ),
                     ),
                   );
