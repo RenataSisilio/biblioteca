@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../../get_it.dart';
 import '../../models/book.dart';
+import '../../services/controllers/library_controller.dart';
 import '../../widgets/book_info.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key, required this.books});
-
-  final List<Book> books;
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = getIt.get<LibraryController>();
+    final books = controller.books;
     final selectedBook = ValueNotifier<Book?>(null);
     final copy = [...books];
     for (var i = 1; i < copy.length; i++) {
@@ -70,7 +72,7 @@ class HomeView extends StatelessWidget {
                           .where(
                               (book) => book.title == selectedBook.value?.title)
                           .map(
-                            (e) => BookInfo(selectedBook: e),
+                            (e) => BookInfo(books.indexOf(e)),
                           ),
                     ),
                   );

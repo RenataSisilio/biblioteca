@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'routes/home/home_page.dart';
+import 'get_it.dart';
+import 'routes/main_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,12 +12,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    initializeDependencyInjection();
     return MaterialApp(
       title: 'Minha Biblioteca Contemplativa',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: const MainPage(),
     );
   }
 }

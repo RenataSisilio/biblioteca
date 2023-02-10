@@ -32,7 +32,7 @@ class ShelfView extends StatelessWidget {
           subtitle: Text(copy[index].author ?? ''),
           children: List.from(shelf
               .where((e) => e.title == copy[index].title)
-              .map((e) => BookInfo(selectedBook: e))),
+              .map((e) => BookInfo(books.indexOf(e)))),
         ),
       ),
     );

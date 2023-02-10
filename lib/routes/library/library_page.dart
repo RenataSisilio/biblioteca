@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../services/controllers/library_controller.dart';
-import 'home_view.dart';
+import 'library_view.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class LibraryPage extends StatefulWidget {
+  const LibraryPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<LibraryPage> createState() => _LibraryPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _LibraryPageState extends State<LibraryPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LibraryController, LibraryState>(
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         if (state == LibraryState.success ||
             state == LibraryState.offlineSuccess) {
-          return const HomeView();
+          return const LibraryView();
         }
         if (state == LibraryState.error) {
           return const Center(child: Text('Erro'));
