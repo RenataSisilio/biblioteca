@@ -10,22 +10,14 @@ class LibraryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = getIt.get<LibraryController>();
-    final books = controller.books;
-    final categories = books.fold(<String>[], (previousValue, book) {
-      if (!previousValue.contains(book.category)) {
-        previousValue.add(book.category);
-      }
-      return previousValue;
-    });
+    final categories = controller.getCategories();
+
     return ListView.builder(
       itemCount: categories.length,
       itemBuilder: (context, index) => ListTile(
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ShelfView(
-              books: books,
-              category: categories[index],
-            ),
+            builder: (context) => ShelfPage(categories[index]),
           ),
         ),
         title: Text(categories[index]),

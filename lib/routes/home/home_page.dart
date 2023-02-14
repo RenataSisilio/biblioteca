@@ -18,14 +18,13 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<LibraryController, LibraryState>(
       bloc: getIt.get<LibraryController>(),
       builder: (context, state) {
-        if (state == LibraryState.success ||
-            state == LibraryState.offlineSuccess) {
-          return const HomeView();
+        if (state == LibraryState.loading) {
+          return const Center(child: CircularProgressIndicator());
         }
         if (state == LibraryState.error) {
           return const Center(child: Text('Erro'));
         }
-        return const Center(child: CircularProgressIndicator());
+        return const HomeView();
       },
     );
   }
