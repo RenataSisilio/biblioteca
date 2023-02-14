@@ -45,9 +45,9 @@ class LocalStorageLibraryRepository implements LibraryRepository {
     final encoded = json.encode(mapList);
     File(filePath).writeAsStringSync(encoded);
   }
-  
+
   @override
-  void update(List<Book> list) {
+  void update(List<Book> list, LibraryRepository onlineRepo) {
     final books = getBooks();
     final mapList = books.map((e) => e.toMap()).toList();
     final encoded = json.encode(mapList);

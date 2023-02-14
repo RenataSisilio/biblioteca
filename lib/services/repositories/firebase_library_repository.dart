@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../models/book.dart';
@@ -12,7 +14,11 @@ class FirebaseLibraryRepository implements LibraryRepository {
     try {
       firestore = FirebaseFirestore.instance;
     } catch (e) {
-      firestore = null;
+      if (firestore == null) {
+        rethrow;
+      } else {
+        log('Firestore already initialized');
+      }
     }
   }
 
@@ -59,7 +65,11 @@ class FirebaseLibraryRepository implements LibraryRepository {
       final map = book.copyWith(status: Status.available).toMap();
       map.remove('id');
       await firestore!.collection('books').doc(book.id).set(map);
-      await firestore!.collection('users').doc(book.lastUser).collection('moves').add(
+      await firestore!
+          .collection('users')
+          .doc(book.lastUser)
+          .collection('moves')
+          .add(
         {
           'status': Status.available.name,
           'date': date.millisecondsSinceEpoch,
@@ -70,9 +80,9 @@ class FirebaseLibraryRepository implements LibraryRepository {
       rethrow;
     }
   }
-  
+
   @override
-  void update(List<Book> list) {
+  void update(List<Book> list, LibraryRepository onlineRepo) {
     // unnecessary, it's already online
   }
 }
