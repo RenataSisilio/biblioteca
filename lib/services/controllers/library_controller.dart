@@ -20,6 +20,7 @@ class LibraryController extends Cubit<LibraryState> {
     try {
       try {
         books = await onlineRepo.getBooks();
+        offlineRepo.update(books);
         emit(LibraryState.success);
       } catch (e) {
         books = await offlineRepo.getBooks();

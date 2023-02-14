@@ -1,9 +1,11 @@
-import 'package:biblioteca/services/controllers/library_controller.dart';
-import 'package:biblioteca/services/repositories/firebase_library_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import '../../firebase_options.dart';
+import '../../services/controllers/library_controller.dart';
+import '../../services/repositories/firebase_library_repository.dart';
+import '../../services/repositories/spref_library_repository.dart';
 
 enum SplashState { loading, online, offline }
 
@@ -13,15 +15,23 @@ class SplashController extends Cubit<SplashState> {
   void init({
     required FirebaseLibraryRepository firestore,
     required LibraryController libraryController,
+    SPrefLibraryRepository? sPrefRepository,
   }) async {
     try {
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-      firestore.init();
+      final connection = await Connectivity().checkConnectivity();
+      if (connection != ConnectivityResult.none &&
+          connection != ConnectivityResult.bluetooth) {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
+        firestore.init();
+      }
+      await sPrefRepository?.init();
       libraryController.getBooks();
       emit(SplashState.online);
     } catch (e) {
+      await sPrefRepository?.init();
+      libraryController.getBooks();
       emit(SplashState.offline);
     }
   }
