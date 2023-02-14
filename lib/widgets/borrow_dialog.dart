@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../get_it.dart';
 import '../models/book.dart';
@@ -35,9 +36,11 @@ class BorrowDialog extends StatelessWidget {
       ),
       actions: [
         ElevatedButton(
-          onPressed: () {
-            controller.borrow(book, user.text);
-            Navigator.of(context).pop();
+          onPressed: () async {
+            final navigator = Navigator.of(context);
+            final dateSave = DateFormat('dd/MM/yyyy').parse(date.text);
+            await controller.borrow(book, user.text, dateSave);
+            navigator.pop();
           },
           child: const Text('EMPRESTAR'),
         ),

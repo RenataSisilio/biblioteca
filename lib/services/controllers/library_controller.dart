@@ -3,28 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../models/book.dart';
 import '../repositories/library_repository.dart';
 
-enum LibraryState { loading, success, offlineSuccess, error }
+enum LibraryState { loading, saving, success, offlineSuccess, error }
 
 class LibraryController extends Cubit<LibraryState> {
   LibraryController({
     required this.onlineRepo,
     required this.offlineRepo,
-  }) : super(LibraryState.loading) {
-    getBooks();
-  }
+  }) : super(LibraryState.loading);
 
   final LibraryRepository onlineRepo;
   final LibraryRepository offlineRepo;
-  late final List<Book> books;
+  late List<Book> books;
 
-  void getBooks() {
+  void getBooks() async {
     emit(LibraryState.loading);
     try {
       try {
-        books = onlineRepo.getBooks();
+        books = await onlineRepo.getBooks();
         emit(LibraryState.success);
       } catch (e) {
-        books = offlineRepo.getBooks();
+        books = await offlineRepo.getBooks();
         emit(LibraryState.offlineSuccess);
       }
     } catch (e) {
@@ -32,15 +30,31 @@ class LibraryController extends Cubit<LibraryState> {
     }
   }
 
-  void borrow(Book book, String user) {
-    emit(LibraryState.loading);
+  List<String> getCategories() {
+    final categories = books.fold(<String>[], (previousValue, book) {
+      if (!previousValue.contains(book.category)) {
+        previousValue.add(book.category);
+      }
+      return previousValue;
+    });
+    return categories;
+  }
+
+  Future<void> borrow(Book book, String user, DateTime date) async {
+    emit(LibraryState.saving);
     try {
       try {
-        onlineRepo.borrow(book, user);
-        getBooks();
+        await onlineRepo.borrow(book, user, date);
+        final index = books.indexWhere((e) => e.id == book.id);
+        books.removeAt(index);
+        books.insert(
+          index,
+          book.copyWith(status: Status.borrowed, lastUser: user),
+        );
+        offlineRepo.borrow(book, user, date);
         emit(LibraryState.success);
       } catch (e) {
-        offlineRepo.borrow(book, user);
+        offlineRepo.borrow(book, user, date);
         final index = books.indexWhere(
             (e) => e.title == book.title && e.number == book.number);
         books.removeAt(index);
@@ -55,15 +69,21 @@ class LibraryController extends Cubit<LibraryState> {
     }
   }
 
-  void giveBack(Book book) {
-    emit(LibraryState.loading);
+  Future<void> giveBack(Book book, DateTime date) async {
+    emit(LibraryState.saving);
     try {
       try {
-        onlineRepo.giveBack(book);
-        getBooks();
+        await onlineRepo.giveBack(book, date);
+        final index = books.indexWhere((e) => e.id == book.id);
+        books.removeAt(index);
+        books.insert(
+          index,
+          book.copyWith(status: Status.available),
+        );
+        offlineRepo.giveBack(book, date);
         emit(LibraryState.success);
       } catch (e) {
-        offlineRepo.giveBack(book);
+        offlineRepo.giveBack(book, date);
         final index = books.indexWhere(
             (e) => e.title == book.title && e.number == book.number);
         books.removeAt(index);

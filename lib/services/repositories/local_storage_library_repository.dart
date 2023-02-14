@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -11,7 +10,7 @@ class LocalStorageLibraryRepository implements LibraryRepository {
   LocalStorageLibraryRepository(this.filePath);
 
   @override
-  void borrow(Book book, String user) {
+  void borrow(Book book, String user, DateTime date) {
     final books = getBooks();
     for (var i = 0; i < books.length; i++) {
       if (book.title == books[i].title && book.number == books[i].number) {
@@ -28,15 +27,13 @@ class LocalStorageLibraryRepository implements LibraryRepository {
   List<Book> getBooks() {
     final file = json.decode(File(filePath).readAsStringSync());
     final mapped = file.map(
-        (e) => Book.fromMap(map: e as Map<String, dynamic>),
-      );
-    return List.from(
-      mapped,
+      (e) => Book.fromMap(map: e as Map<String, dynamic>),
     );
+    return List.from(mapped);
   }
 
   @override
-  void giveBack(Book book) {
+  void giveBack(Book book, DateTime date) {
     final books = getBooks();
     for (var i = 0; i < books.length; i++) {
       if (book.title == books[i].title && book.number == books[i].number) {
@@ -47,5 +44,10 @@ class LocalStorageLibraryRepository implements LibraryRepository {
     final mapList = books.map((e) => e.toMap()).toList();
     final encoded = json.encode(mapList);
     File(filePath).writeAsStringSync(encoded);
+  }
+  
+  @override
+  void update(List<Book> list) {
+    // TODO: implement update
   }
 }

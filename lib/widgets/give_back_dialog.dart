@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../get_it.dart';
 import '../models/book.dart';
@@ -23,9 +24,11 @@ class GiveBackDialog extends StatelessWidget {
       ),
       actions: [
         ElevatedButton(
-          onPressed: () {
-            controller.giveBack(book);
-            Navigator.of(context).pop();
+          onPressed: () async {
+            final navigator = Navigator.of(context);
+            final dateSave = DateFormat('dd/MM/yyyy').parse(date.text);
+            await controller.giveBack(book, dateSave);
+            navigator.pop();
           },
           child: const Text('DEVOLVER'),
         ),
