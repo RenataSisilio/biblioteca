@@ -28,32 +28,98 @@ class _BookInfoState extends State<BookInfo> {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            Text(book.title),
-            Text(book.author ?? ''),
-            Text(book.category),
-            Text(book.numStr),
-            book.status == Status.available
-                ? const Text('Disponível')
-                : Text('Emprestado para ${book.lastUser}'),
+            Container(
+              alignment: AlignmentDirectional.centerEnd,
+              child: Text(
+                book.numStr,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: Colors.grey),
+              ),
+            ),
+            Text(
+              book.title,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            Text(
+              book.author ?? '',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: OverflowBar(
+                alignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    book.category,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: book.status == Status.available
+                            ? Colors.green
+                            : Colors.red,
+                        radius: 4,
+                      ),
+                      Text(
+                        book.status == Status.available
+                            ? ' Disponível'
+                            : ' Emprestado\n para ${book.lastUser}',
+                        textAlign: TextAlign.end,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => showDialog(
-                      context: context,
-                      builder: (context) => BorrowDialog(book),
-                    ).then((_) => setState(() {})),
-                    child: const Text('Emprestar'),
+                    style: const ButtonStyle(
+                        padding: MaterialStatePropertyAll(EdgeInsets.all(4.0))),
+                    onPressed: () => book.status != Status.borrowed
+                        ? showDialog(
+                            context: context,
+                            builder: (context) => BorrowDialog(book),
+                          ).then((_) => setState(() {}))
+                        : ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Este livro já está emprestado'),
+                            ),
+                          ),
+                    child: const Text(
+                      'Emprestar',
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 24.0),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => showDialog(
-                      context: context,
-                      builder: (context) => GiveBackDialog(book),
-                    ).then((_) => setState(() {})),
-                    child: const Text('Devolver'),
+                    style: const ButtonStyle(
+                        padding: MaterialStatePropertyAll(EdgeInsets.all(4.0))),
+                    onPressed: () => book.status != Status.available
+                        ? showDialog(
+                            context: context,
+                            builder: (context) => GiveBackDialog(book),
+                          ).then((_) => setState(() {}))
+                        : ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Este livro não está emprestado'),
+                            ),
+                          ),
+                    child: const Text(
+                      'Devolver',
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ],
