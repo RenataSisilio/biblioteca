@@ -38,6 +38,7 @@ class LibraryController extends Cubit<LibraryState> {
       }
       return previousValue;
     });
+    categories.sort((a, b) => a.compareTo(b));
     return categories;
   }
 
