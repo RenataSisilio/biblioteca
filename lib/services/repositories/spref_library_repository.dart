@@ -82,32 +82,34 @@ class SPrefLibraryRepository implements LibraryRepository {
 
   @override
   Future<void> update(List<Book> list, LibraryRepository onlineRepo) async {
-    final List<Map<String, dynamic>> update =
-        json.decode(sPref.getString('update') ?? '');
-
-    try {
-      for (var map in update) {
-        final book = list.firstWhere((book) => book.id == map['book']);
-        switch (map['status']) {
-          case 'available':
-            if (book.status == Status.borrowed) {
-              try {
-                await onlineRepo.giveBack(book, map['date']);
-              } catch (e) {
-                rethrow;
+    final updateStr =
+        sPref.containsKey('update') ? sPref.getString('update') ?? '' : '';
+    if (updateStr != '') {
+      final List<Map<String, dynamic>> update = json.decode(updateStr);
+      try {
+        for (var map in update) {
+          final book = list.firstWhere((book) => book.id == map['book']);
+          switch (map['status']) {
+            case 'available':
+              if (book.status == Status.borrowed) {
+                try {
+                  await onlineRepo.giveBack(book, map['date']);
+                } catch (e) {
+                  rethrow;
+                }
               }
-            }
-            break;
-          case 'borrowed':
-            if (book.status == Status.available) {
-              await onlineRepo.borrow(book, map['user'], map['date']);
-            }
-            break;
+              break;
+            case 'borrowed':
+              if (book.status == Status.available) {
+                await onlineRepo.borrow(book, map['user'], map['date']);
+              }
+              break;
+          }
         }
+        await sPref.setString('update', '[]');
+      } catch (e) {
+        rethrow;
       }
-      await sPref.setString('update', '[]');
-    } catch (e) {
-      rethrow;
     }
 
     final mapList = list.map((e) => e.toMap()).toList();
