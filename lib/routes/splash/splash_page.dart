@@ -1,11 +1,11 @@
-import 'package:biblioteca/get_it.dart';
-import 'package:biblioteca/routes/main_page.dart';
-import 'package:biblioteca/services/controllers/library_controller.dart';
-import 'package:biblioteca/services/repositories/firebase_library_repository.dart';
-import 'package:biblioteca/services/repositories/spref_library_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../get_it.dart';
+import '../../services/controllers/library_controller.dart';
+import '../../services/repositories/firebase_library_repository.dart';
+import '../../services/repositories/spref_library_repository.dart';
+import '../main_page.dart';
 import 'splash_controller.dart';
 
 class SplashPage extends StatefulWidget {

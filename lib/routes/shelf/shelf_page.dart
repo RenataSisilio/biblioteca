@@ -1,9 +1,9 @@
-import 'package:biblioteca/routes/shelf/shelf_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../get_it.dart';
 import '../../services/controllers/library_controller.dart';
+import 'shelf_view.dart';
 
 class ShelfPage extends StatelessWidget {
   const ShelfPage(this.category, {super.key});
