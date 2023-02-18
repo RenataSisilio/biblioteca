@@ -21,21 +21,35 @@ class _MainPageState extends State<MainPage> {
     final connectionController = getIt.get<ConnectionController>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Minha Biblioteca Contemplativa'),
-        actions: [
-          BlocBuilder<ConnectionController, ConnectState>(
-            bloc: connectionController,
-            builder: (context, state) {
-              return IconButton(
-                onPressed: () => connectionController.checkConnection(),
-                icon: Icon(state == ConnectState.online
-                    ? Icons.sync
-                    : Icons.sync_problem),
-              );
-            },
-          )
-        ],
+      appBar: PreferredSize(
+        preferredSize:
+            Size(double.infinity, MediaQuery.of(context).size.height * 0.15),
+        child: Row(
+          children: [
+            Expanded(
+              child: Center(
+                child: Image.asset(
+                  'assets/Minha Biblioteca Contemplativa.png',
+                  height: MediaQuery.of(context).size.height * 0.15,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: BlocBuilder<ConnectionController, ConnectState>(
+                bloc: connectionController,
+                builder: (context, state) {
+                  return IconButton(
+                    onPressed: () => connectionController.checkConnection(),
+                    icon: Icon(state == ConnectState.online
+                        ? Icons.sync
+                        : Icons.sync_problem),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
       body: PageView(
         controller: pageController,
