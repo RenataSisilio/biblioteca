@@ -53,7 +53,7 @@ class LibraryController extends Cubit<LibraryState> {
           index,
           book.copyWith(status: Status.borrowed, lastUser: user),
         );
-        offlineRepo.borrow(book, user, date);
+        // offlineRepo.borrow(book, user, date);
         emit(LibraryState.success);
       } catch (e) {
         offlineRepo.borrow(book, user, date);
@@ -82,7 +82,7 @@ class LibraryController extends Cubit<LibraryState> {
           index,
           book.copyWith(status: Status.available),
         );
-        offlineRepo.giveBack(book, date);
+        // offlineRepo.giveBack(book, date);
         emit(LibraryState.success);
       } catch (e) {
         offlineRepo.giveBack(book, date);
