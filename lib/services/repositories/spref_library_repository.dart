@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -115,5 +116,10 @@ class SPrefLibraryRepository implements LibraryRepository {
     final mapList = list.map((e) => e.toMap()).toList();
     final encoded = json.encode(mapList);
     await sPref.setString('library', encoded);
+  }
+
+  @override
+  FutureOr<List<String>> getUsers() {
+    return [];
   }
 }

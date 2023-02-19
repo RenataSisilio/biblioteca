@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -36,6 +37,7 @@ class FirebaseLibraryRepository implements LibraryRepository {
           'book': book.id,
         },
       );
+      firestore!.collection('users').doc(user).set({});
     } catch (e) {
       rethrow;
     }
@@ -84,5 +86,15 @@ class FirebaseLibraryRepository implements LibraryRepository {
   @override
   void update(List<Book> list, LibraryRepository onlineRepo) {
     // unnecessary, it's already online
+  }
+
+  @override
+  FutureOr<List<String>> getUsers() async {
+    try {
+      final snapshot = await firestore!.collection('users').get();
+      return snapshot.docs.map((e) => e.id).toList();
+    } catch (e) {
+      rethrow;
+    }
   }
 }

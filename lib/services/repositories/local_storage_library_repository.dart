@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -52,5 +53,10 @@ class LocalStorageLibraryRepository implements LibraryRepository {
     final mapList = books.map((e) => e.toMap()).toList();
     final encoded = json.encode(mapList);
     File(filePath).writeAsStringSync(encoded);
+  }
+
+  @override
+  FutureOr<List<String>> getUsers() {
+    return [];
   }
 }

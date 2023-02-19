@@ -34,20 +34,20 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: BlocBuilder<ConnectionController, ConnectState>(
-                bloc: connectionController,
-                builder: (context, state) {
-                  return IconButton(
-                    onPressed: () => connectionController.checkConnection(),
-                    icon: Icon(state == ConnectState.online
-                        ? Icons.sync
-                        : Icons.sync_problem),
-                  );
-                },
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(right: 8.0),
+            //   child: BlocBuilder<ConnectionController, ConnectState>(
+            //     bloc: connectionController,
+            //     builder: (context, state) {
+            //       return IconButton(
+            //         onPressed: () => connectionController.checkConnection(),
+            //         icon: Icon(state == ConnectState.online
+            //             ? Icons.sync
+            //             : Icons.sync_problem),
+            //       );
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),

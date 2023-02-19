@@ -14,16 +14,19 @@ class LibraryController extends Cubit<LibraryState> {
   final LibraryRepository onlineRepo;
   final LibraryRepository offlineRepo;
   late List<Book> books;
+  late List<String> users;
 
   void getBooks() async {
     emit(LibraryState.loading);
     try {
       try {
         books = await onlineRepo.getBooks();
+        users = await onlineRepo.getUsers();
         await offlineRepo.update(books, onlineRepo);
         emit(LibraryState.success);
       } catch (e) {
         books = await offlineRepo.getBooks();
+        users = await offlineRepo.getUsers();
         emit(LibraryState.offlineSuccess);
       }
     } catch (e) {
@@ -54,6 +57,9 @@ class LibraryController extends Cubit<LibraryState> {
           book.copyWith(status: Status.borrowed, lastUser: user),
         );
         // offlineRepo.borrow(book, user, date);
+        if (!users.contains(user)) {
+          users.add(user);
+        }
         emit(LibraryState.success);
       } catch (e) {
         offlineRepo.borrow(book, user, date);
@@ -64,6 +70,9 @@ class LibraryController extends Cubit<LibraryState> {
           index,
           book.copyWith(status: Status.borrowed, lastUser: user),
         );
+        if (!users.contains(user)) {
+          users.add(user);
+        }
         emit(LibraryState.offlineSuccess);
       }
     } catch (e) {

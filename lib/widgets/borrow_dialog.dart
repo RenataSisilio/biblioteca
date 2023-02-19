@@ -24,11 +24,36 @@ class BorrowDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextFormField(
-              controller: user,
-              decoration: const InputDecoration(
-                label: Text('Nome'),
-              ),
+            const Text('Para'),
+            Autocomplete(
+              optionsBuilder: (textEditingValue) {
+                if (textEditingValue.text == '') {
+                  return const Iterable<String>.empty();
+                }
+                final List<String> result = controller.users.fold(
+                  <String>[],
+                  (res, element) {
+                    if (element.toLowerCase().startsWith(
+                          textEditingValue.text.toLowerCase(),
+                        )) {
+                      res.add(element);
+                    }
+                    return res;
+                  },
+                ).toList();
+                result.addAll(
+                  controller.users
+                      .where(
+                        (element) => element.toLowerCase().contains(
+                              textEditingValue.text.toLowerCase(),
+                            ),
+                      )
+                      .where((element) => !result.contains(element)),
+                );
+                user.text = textEditingValue.text;
+                return result;
+              },
+              onSelected: (option) => user.text = option,
             ),
             DatePickerFormField(date, label: 'Data'),
           ],

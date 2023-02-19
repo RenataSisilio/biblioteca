@@ -7,4 +7,5 @@ abstract class LibraryRepository {
   FutureOr<void> borrow(Book book, String user, DateTime date);
   FutureOr<void> giveBack(Book book, DateTime date);
   FutureOr<void> update(List<Book> list, LibraryRepository onlineRepo);
+  FutureOr<List<String>> getUsers();
 }
