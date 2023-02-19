@@ -24,8 +24,19 @@ class BorrowDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Para'),
             Autocomplete(
+              fieldViewBuilder: (context, textEditingController, focusNode,
+                      onFieldSubmitted) =>
+                  TextFormField(
+                controller: textEditingController,
+                focusNode: focusNode,
+                onFieldSubmitted: (String value) {
+                  onFieldSubmitted();
+                },
+                decoration: InputDecoration(
+                  label: Text('Nome'),
+                ),
+              ),
               optionsBuilder: (textEditingValue) {
                 if (textEditingValue.text == '') {
                   return const Iterable<String>.empty();
