@@ -27,11 +27,11 @@ class SplashController extends Cubit<SplashState> {
         firestore.init();
       }
       await sPrefRepository?.init();
-      libraryController.getBooks();
+      await libraryController.getBooks();
       emit(SplashState.online);
     } catch (e) {
       await sPrefRepository?.init();
-      libraryController.getBooks();
+      await libraryController.getBooks();
       emit(SplashState.offline);
     }
   }

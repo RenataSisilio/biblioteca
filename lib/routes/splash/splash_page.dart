@@ -45,7 +45,12 @@ class _SplashPageState extends State<SplashPage> {
             );
           }
         },
-        child: const Center(child: CircularProgressIndicator()),
+        child: Center(
+          child: Image.asset(
+            'assets/Minha Biblioteca Contemplativa.png',
+            width: MediaQuery.of(context).size.width * 0.7,
+          ),
+        ),
       ),
     );
   }

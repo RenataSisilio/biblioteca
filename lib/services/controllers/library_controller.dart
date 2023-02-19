@@ -16,7 +16,7 @@ class LibraryController extends Cubit<LibraryState> {
   late List<Book> books;
   late List<String> users;
 
-  void getBooks() async {
+  Future<void> getBooks() async {
     emit(LibraryState.loading);
     try {
       try {
