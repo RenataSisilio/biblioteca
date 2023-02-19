@@ -20,7 +20,7 @@ class UserNameFormField extends StatelessWidget {
         onFieldSubmitted: (String value) {
           onFieldSubmitted();
         },
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           label: Text('Nome'),
         ),
       ),

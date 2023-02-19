@@ -24,8 +24,8 @@ class _DatePickerFormFieldState extends State<DatePickerFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.textController,
-      decoration: InputDecoration(
-        suffixIcon: const Icon(Icons.calendar_today_rounded),
+      decoration: const InputDecoration(
+        suffixIcon: Icon(Icons.calendar_today_rounded),
         labelText: 'Data',
       ),
       readOnly: true,
