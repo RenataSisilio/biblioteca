@@ -20,7 +20,7 @@ class GiveBackDialog extends StatelessWidget {
     return AlertDialog(
       content: Form(
         key: formKey,
-        child: DatePickerFormField(date, label: 'Data'),
+        child: DatePickerFormField(date),
       ),
       actions: [
         ElevatedButton(

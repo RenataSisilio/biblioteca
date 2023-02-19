@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DatePickerFormField extends StatefulWidget {
-  const DatePickerFormField(
-    this.textController, {
-    super.key,
-    required this.label,
-  });
+  const DatePickerFormField(this.textController, {super.key});
 
   final TextEditingController textController;
-  final String label;
 
   @override
   State<DatePickerFormField> createState() => _DatePickerFormFieldState();
@@ -31,7 +26,7 @@ class _DatePickerFormFieldState extends State<DatePickerFormField> {
       controller: widget.textController,
       decoration: InputDecoration(
         suffixIcon: const Icon(Icons.calendar_today_rounded),
-        labelText: widget.label,
+        labelText: 'Data',
       ),
       readOnly: true,
       onTap: () async {
